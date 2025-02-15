@@ -1,0 +1,3 @@
+/Users/calaeuscaelum/Documents/Development/ProjectCompressor/build/CMakeFiles/ProjectCompressor.dir
+/Users/calaeuscaelum/Documents/Development/ProjectCompressor/build/CMakeFiles/edit_cache.dir
+/Users/calaeuscaelum/Documents/Development/ProjectCompressor/build/CMakeFiles/rebuild_cache.dir
