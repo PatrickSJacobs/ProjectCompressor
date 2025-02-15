@@ -24,7 +24,7 @@ events:
       The output was:
       0
       MSBuild version 17.13.9+e0f243f1e for .NET Framework
-      Build started 2/15/2025 7:38:20 AM.
+      Build started 2/15/2025 7:45:50 AM.
       
       Project "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\3.31.5\\CompilerIdC\\CompilerIdC.vcxproj" on node 1 (default targets).
       PrepareForBuild:
@@ -53,7 +53,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:01.47
+      Time Elapsed 00:00:01.28
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -79,7 +79,7 @@ events:
       The output was:
       0
       MSBuild version 17.13.9+e0f243f1e for .NET Framework
-      Build started 2/15/2025 7:38:23 AM.
+      Build started 2/15/2025 7:45:52 AM.
       
       Project "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\3.31.5\\CompilerIdCXX\\CompilerIdCXX.vcxproj" on node 1 (default targets).
       PrepareForBuild:
@@ -108,7 +108,7 @@ events:
           0 Warning(s)
           0 Error(s)
       
-      Time Elapsed 00:00:01.44
+      Time Elapsed 00:00:01.22
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -127,8 +127,8 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-pt630x"
-      binary: "C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-pt630x"
+      source: "C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-qzlq60"
+      binary: "C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-qzlq60"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
       CMAKE_C_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -137,40 +137,40 @@ events:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-pt630x'
+        Change Dir: 'C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-qzlq60'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_94617.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_075cb.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         MSBuild version 17.13.9+e0f243f1e for .NET Framework
-        Build started 2/15/2025 7:38:25 AM.
+        Build started 2/15/2025 7:45:54 AM.
         
-        Project "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-pt630x\\cmTC_94617.vcxproj" on node 1 (default targets).
+        Project "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qzlq60\\cmTC_075cb.vcxproj" on node 1 (default targets).
         PrepareForBuild:
-          Creating directory "cmTC_94617.dir\\Debug\\".
+          Creating directory "cmTC_075cb.dir\\Debug\\".
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-pt630x\\Debug\\".
-          Creating directory "cmTC_94617.dir\\Debug\\cmTC_94617.tlog\\".
+          Creating directory "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qzlq60\\Debug\\".
+          Creating directory "cmTC_075cb.dir\\Debug\\cmTC_075cb.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_94617.dir\\Debug\\cmTC_94617.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_94617.dir\\Debug\\cmTC_94617.tlog\\unsuccessfulbuild".
+          Creating "cmTC_075cb.dir\\Debug\\cmTC_075cb.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_075cb.dir\\Debug\\cmTC_075cb.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_94617.dir\\Debug\\\\" /Fd"cmTC_94617.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_075cb.dir\\Debug\\\\" /Fd"cmTC_075cb.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.43.34808 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_94617.dir\\Debug\\\\" /Fd"cmTC_94617.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_075cb.dir\\Debug\\\\" /Fd"cmTC_075cb.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCCompilerABI.c"
           CMakeCCompilerABI.c
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-pt630x\\Debug\\cmTC_94617.exe" /INCREMENTAL /ILK:"cmTC_94617.dir\\Debug\\cmTC_94617.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-pt630x/Debug/cmTC_94617.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-pt630x/Debug/cmTC_94617.lib" /MACHINE:X64  /machine:x64 cmTC_94617.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_94617.vcxproj -> C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-pt630x\\Debug\\cmTC_94617.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qzlq60\\Debug\\cmTC_075cb.exe" /INCREMENTAL /ILK:"cmTC_075cb.dir\\Debug\\cmTC_075cb.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-qzlq60/Debug/cmTC_075cb.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-qzlq60/Debug/cmTC_075cb.lib" /MACHINE:X64  /machine:x64 cmTC_075cb.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_075cb.vcxproj -> C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qzlq60\\Debug\\cmTC_075cb.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_94617.dir\\Debug\\cmTC_94617.tlog\\unsuccessfulbuild".
-          Touching "cmTC_94617.dir\\Debug\\cmTC_94617.tlog\\cmTC_94617.lastbuildstate".
-        Done Building Project "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-pt630x\\cmTC_94617.vcxproj" (default targets).
+          Deleting file "cmTC_075cb.dir\\Debug\\cmTC_075cb.tlog\\unsuccessfulbuild".
+          Touching "cmTC_075cb.dir\\Debug\\cmTC_075cb.tlog\\cmTC_075cb.lastbuildstate".
+        Done Building Project "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qzlq60\\cmTC_075cb.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:01.53
+        Time Elapsed 00:00:01.29
         
       exitCode: 0
   -
@@ -210,8 +210,8 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-hshjri"
-      binary: "C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-hshjri"
+      source: "C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-0pu6m7"
+      binary: "C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-0pu6m7"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
       CMAKE_CXX_FLAGS_DEBUG: "/MDd /Zi /Ob0 /Od /RTC1"
@@ -221,40 +221,40 @@ events:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: 'C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-hshjri'
+        Change Dir: 'C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-0pu6m7'
         
-        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_5cd49.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
+        Run Build Command(s): "C:/Program Files (x86)/Microsoft Visual Studio/2022/BuildTools/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_7cae1.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n
         MSBuild version 17.13.9+e0f243f1e for .NET Framework
-        Build started 2/15/2025 7:38:28 AM.
+        Build started 2/15/2025 7:45:57 AM.
         
-        Project "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hshjri\\cmTC_5cd49.vcxproj" on node 1 (default targets).
+        Project "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-0pu6m7\\cmTC_7cae1.vcxproj" on node 1 (default targets).
         PrepareForBuild:
-          Creating directory "cmTC_5cd49.dir\\Debug\\".
+          Creating directory "cmTC_7cae1.dir\\Debug\\".
           Structured output is enabled. The formatting of compiler diagnostics will reflect the error hierarchy. See https://aka.ms/cpp/structured-output for more details.
-          Creating directory "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hshjri\\Debug\\".
-          Creating directory "cmTC_5cd49.dir\\Debug\\cmTC_5cd49.tlog\\".
+          Creating directory "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-0pu6m7\\Debug\\".
+          Creating directory "cmTC_7cae1.dir\\Debug\\cmTC_7cae1.tlog\\".
         InitializeBuildStatus:
-          Creating "cmTC_5cd49.dir\\Debug\\cmTC_5cd49.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
-          Touching "cmTC_5cd49.dir\\Debug\\cmTC_5cd49.tlog\\unsuccessfulbuild".
+          Creating "cmTC_7cae1.dir\\Debug\\cmTC_7cae1.tlog\\unsuccessfulbuild" because "AlwaysCreate" was specified.
+          Touching "cmTC_7cae1.dir\\Debug\\cmTC_7cae1.tlog\\unsuccessfulbuild".
         ClCompile:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_5cd49.dir\\Debug\\\\" /Fd"cmTC_5cd49.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_7cae1.dir\\Debug\\\\" /Fd"cmTC_7cae1.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
           Microsoft (R) C/C++ Optimizing Compiler Version 19.43.34808 for x64
           Copyright (C) Microsoft Corporation.  All rights reserved.
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_5cd49.dir\\Debug\\\\" /Fd"cmTC_5cd49.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_7cae1.dir\\Debug\\\\" /Fd"cmTC_7cae1.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "C:\\Program Files\\CMake\\share\\cmake-3.31\\Modules\\CMakeCXXCompilerABI.cpp"
           CMakeCXXCompilerABI.cpp
         Link:
-          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hshjri\\Debug\\cmTC_5cd49.exe" /INCREMENTAL /ILK:"cmTC_5cd49.dir\\Debug\\cmTC_5cd49.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-hshjri/Debug/cmTC_5cd49.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-hshjri/Debug/cmTC_5cd49.lib" /MACHINE:X64  /machine:x64 cmTC_5cd49.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_5cd49.vcxproj -> C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hshjri\\Debug\\cmTC_5cd49.exe
+          C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\BuildTools\\VC\\Tools\\MSVC\\14.43.34808\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-0pu6m7\\Debug\\cmTC_7cae1.exe" /INCREMENTAL /ILK:"cmTC_7cae1.dir\\Debug\\cmTC_7cae1.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-0pu6m7/Debug/cmTC_7cae1.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/CMakeScratch/TryCompile-0pu6m7/Debug/cmTC_7cae1.lib" /MACHINE:X64  /machine:x64 cmTC_7cae1.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_7cae1.vcxproj -> C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-0pu6m7\\Debug\\cmTC_7cae1.exe
         FinalizeBuildStatus:
-          Deleting file "cmTC_5cd49.dir\\Debug\\cmTC_5cd49.tlog\\unsuccessfulbuild".
-          Touching "cmTC_5cd49.dir\\Debug\\cmTC_5cd49.tlog\\cmTC_5cd49.lastbuildstate".
-        Done Building Project "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-hshjri\\cmTC_5cd49.vcxproj" (default targets).
+          Deleting file "cmTC_7cae1.dir\\Debug\\cmTC_7cae1.tlog\\unsuccessfulbuild".
+          Touching "cmTC_7cae1.dir\\Debug\\cmTC_7cae1.tlog\\cmTC_7cae1.lastbuildstate".
+        Done Building Project "C:\\Users\\Slyphur\\Documents\\GitHub\\ProjectCompressor\\build\\CMakeFiles\\CMakeScratch\\TryCompile-0pu6m7\\cmTC_7cae1.vcxproj" (default targets).
         
         Build succeeded.
             0 Warning(s)
             0 Error(s)
         
-        Time Elapsed 00:00:01.32
+        Time Elapsed 00:00:02.05
         
       exitCode: 0
   -
