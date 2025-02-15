@@ -30,5 +30,7 @@
 *.exe
 *.out
 *.app
+.gitattributes
+.git/
+/build/
 
-/build

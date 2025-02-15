@@ -1,3 +1,16 @@
+# File: /Users/calaeuscaelum/Documents/Development/ProjectCompressor/CMakeLists.txt
+
+cmake_minimum_required(VERSION 3.10)
+project(ProjectCompressor)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_executable(ProjectCompressor main.cpp)
+
+
+# File: /Users/calaeuscaelum/Documents/Development/ProjectCompressor/main.cpp
+
 #include <iostream>
 #include <fstream>
 #include <filesystem>
@@ -346,3 +359,5 @@ int main(int argc, char* argv[]) {
     std::cout << "Files have been combined into combined.txt\n";
     return 0;
 }
+
+
