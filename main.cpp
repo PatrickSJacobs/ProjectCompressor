@@ -200,6 +200,7 @@ bool pathMatchesRule(const std::vector<std::string> &pathComponents,
 
 /**
  * Determine if a path should be ignored by checking against accumulated GitIgnoreRules.
+ * The relative path is computed from 'baseDir' (which remains constant for the whole run).
  */
 bool isIgnored(const fs::path &fullPath,
                const fs::path &baseDir,
@@ -223,6 +224,7 @@ bool isIgnored(const fs::path &fullPath,
 
 /**
  * Recursively gather rules from .gitignore files in parent directories.
+ * (Rules are gathered from the original base directory.)
  */
 std::vector<GitIgnoreRule> gatherGitIgnoreRulesRecursively(const fs::path &dir) {
     std::vector<fs::path> dirs;
@@ -275,11 +277,13 @@ bool isBinaryFile(const fs::path &filePath) {
 
 /**
  * Recursively process the directory, respecting .gitignore rules.
- * This function now ignores "combined.txt" (the output file) to avoid reprocessing it.
+ * The parameter 'baseDir' remains the original directory against which all relative
+ * paths (for .gitignore matching) are computed.
  */
 void processDirectory(const fs::path &dir,
                       std::ofstream &out,
-                      const std::vector<GitIgnoreRule> &rules)
+                      const std::vector<GitIgnoreRule> &rules,
+                      const fs::path &baseDir)
 {
     for (const auto &entry : fs::directory_iterator(dir)) {
         if (!entry.exists())
@@ -287,24 +291,26 @@ void processDirectory(const fs::path &dir,
         fs::path path = entry.path();
         bool directory = fs::is_directory(path);
 
-        // Skip .gitignore files...
+        // Skip .gitignore files and the output file "combined.txt".
         if (path.filename() == ".gitignore")
             continue;
-        // ...and skip the output file "combined.txt".
         if (path.filename() == "combined.txt")
             continue;
 
-        if (isIgnored(path, dir, rules, directory))
+        // Use the fixed baseDir for ignore matching.
+        if (isIgnored(path, baseDir, rules, directory))
             continue;
 
         if (directory) {
+            // Create a new set of rules that includes any .gitignore from this subdirectory.
             auto subDirRules = rules;
             fs::path subGitIgnore = path / ".gitignore";
             if (fs::exists(subGitIgnore)) {
                 auto localRules = parseGitIgnore(subGitIgnore);
                 subDirRules.insert(subDirRules.end(), localRules.begin(), localRules.end());
             }
-            processDirectory(path, out, subDirRules);
+            // Recurse but always pass along the original baseDir.
+            processDirectory(path, out, subDirRules, baseDir);
         } else {
             if (isBinaryFile(path)) {
                 std::cerr << "Skipping binary file: " << path << "\n";
@@ -340,8 +346,9 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    // Gather rules from the entire directory tree (using the top-level directory as base).
     auto topLevelRules = gatherGitIgnoreRulesRecursively(directoryPath);
-    processDirectory(directoryPath, outFile, topLevelRules);
+    processDirectory(directoryPath, outFile, topLevelRules, directoryPath);
 
     std::cout << "Files have been combined into combined.txt\n";
     return 0;
