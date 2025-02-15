@@ -32,5 +32,5 @@
 *.app
 .gitattributes
 .git/
-/build/
+/build
 

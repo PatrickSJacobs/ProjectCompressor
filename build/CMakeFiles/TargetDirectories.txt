@@ -1,3 +1,3 @@
-/Users/calaeuscaelum/Documents/Development/ProjectCompressor/build/CMakeFiles/ProjectCompressor.dir
-/Users/calaeuscaelum/Documents/Development/ProjectCompressor/build/CMakeFiles/edit_cache.dir
-/Users/calaeuscaelum/Documents/Development/ProjectCompressor/build/CMakeFiles/rebuild_cache.dir
+C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/ProjectCompressor.dir
+C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Slyphur/Documents/GitHub/ProjectCompressor/build/CMakeFiles/ZERO_CHECK.dir
