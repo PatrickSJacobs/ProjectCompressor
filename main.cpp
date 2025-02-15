@@ -3,255 +3,190 @@
 #include <filesystem>
 #include <vector>
 #include <string>
-#include <algorithm>
+#include <regex>
+#include <sstream>
 #include <optional>
+#include <algorithm>
 
 namespace fs = std::filesystem;
 
-/**
- * This structure represents a single ignore rule from a .gitignore file.
- * It captures:
- *   - pattern: the original pattern text (after trimming comments/spaces).
- *   - negate: true if the pattern starts with '!' (i.e., un-ignore).
- *   - directoryOnly: true if the pattern ends with '/' (only matches directories).
- *   - anchored: true if the pattern starts with '/' (pattern is relative to .gitignore's directory).
- *   - tokens: a tokenized version of the pattern for matching (splitting on slashes and interpreting '**').
- */
+// A structure representing a single .gitignore rule.
 struct GitIgnoreRule {
-    std::string pattern;
-    bool negate = false;
-    bool directoryOnly = false;
-    bool anchored = false;
-    std::vector<std::string> tokens;
+    std::regex patternRegex; // The pattern converted to a regex.
+    bool negate = false;     // True if the rule starts with '!'
+    bool directoryOnly = false; // True if the pattern ends with '/'
+    bool anchored = false;      // True if the pattern starts with '/'
+    std::string originalPattern; // The original pattern text.
 };
 
-/**
- * Trim whitespace from left and right.
- */
-static inline std::string trim(const std::string &s) {
+// Utility: trim whitespace.
+std::string trim(const std::string &s) {
     const char* ws = " \t\r\n";
-    auto start = s.find_first_not_of(ws);
-    if (start == std::string::npos) return "";
-    auto end = s.find_last_not_of(ws);
+    size_t start = s.find_first_not_of(ws);
+    if (start == std::string::npos)
+        return "";
+    size_t end = s.find_last_not_of(ws);
     return s.substr(start, end - start + 1);
 }
 
 /**
- * Split a string by delimiter, returning a vector of tokens.
+ * Convert a .gitignore pattern into a regex string.
+ * This implementation handles:
+ *   - Leading '/' (anchored) by prefixing the regex with '^'
+ *   - Trailing '/' (directoryOnly) by forcing a match to the end.
+ *   - '*' matches any characters except '/'
+ *   - '**' matches any characters (including '/')
+ *   - '?' matches any single character except '/'
+ *
+ * This conversion is a best‐effort approximation and does not cover all edge cases.
  */
-static std::vector<std::string> split(const std::string &str, char delimiter) {
-    std::vector<std::string> result;
-    size_t start = 0;
-    while (true) {
-        auto pos = str.find(delimiter, start);
-        if (pos == std::string::npos) {
-            result.push_back(str.substr(start));
-            break;
+std::string patternToRegex(const std::string &pattern, bool anchored) {
+    std::ostringstream oss;
+    if (anchored)
+        oss << "^";
+
+    for (size_t i = 0; i < pattern.size(); ++i) {
+        char c = pattern[i];
+        if (c == '*') {
+            // Check for a double star.
+            if (i + 1 < pattern.size() && pattern[i+1] == '*') {
+                oss << ".*";
+                ++i;
+            } else {
+                oss << "[^/]*";
+            }
+        } else if (c == '?') {
+            oss << "[^/]";
+        } else if (c == '.') {
+            oss << "\\.";
+        } else if (c == '+') {
+            oss << "\\+";
+        } else if (c == '(' || c == ')' || c == '|' || c == '^' || c == '$' || c == '{' || c == '}' || c == '[' || c == ']') {
+            oss << "\\" << c;
         } else {
-            result.push_back(str.substr(start, pos - start));
-            start = pos + 1;
+            oss << c;
         }
     }
-    return result;
+    // If the pattern was for a directory, ensure it matches a trailing slash or end.
+    // (Git’s behavior is more nuanced, but here we force end-of-string.)
+    // You might want to modify this if needed.
+    if (!pattern.empty() && pattern.back() == '/')
+        oss << ".*";
+
+    return oss.str();
 }
 
 /**
- * Parse a single line from a .gitignore file into a GitIgnoreRule, if valid.
- * Returns std::nullopt if the line is empty or a comment line.
+ * Parse a single line of a .gitignore file into a GitIgnoreRule.
+ * Returns std::nullopt for blank lines or comments.
  */
 std::optional<GitIgnoreRule> parseGitIgnoreLine(const std::string &line) {
-    std::string trimmed = trim(line);
-    if (trimmed.empty() || trimmed[0] == '#')
+    std::string trimmedLine = trim(line);
+    if (trimmedLine.empty() || trimmedLine[0] == '#')
         return std::nullopt;
-    
+
     GitIgnoreRule rule;
-    rule.pattern = trimmed;
+    rule.originalPattern = trimmedLine;
 
-    if (!trimmed.empty() && trimmed[0] == '!') {
+    // Check for negation.
+    if (trimmedLine[0] == '!') {
         rule.negate = true;
-        rule.pattern.erase(rule.pattern.begin());
-        rule.pattern = trim(rule.pattern);
+        trimmedLine = trim(trimmedLine.substr(1));
     }
 
-    if (!rule.pattern.empty() && rule.pattern.back() == '/') {
+    // Check for a trailing slash.
+    if (!trimmedLine.empty() && trimmedLine.back() == '/') {
         rule.directoryOnly = true;
-        rule.pattern.pop_back();
     }
 
-    if (!rule.pattern.empty() && rule.pattern.front() == '/') {
+    // Check for anchored rule (pattern starts with '/')
+    if (!trimmedLine.empty() && trimmedLine[0] == '/') {
         rule.anchored = true;
-        rule.pattern.erase(rule.pattern.begin());
+        trimmedLine = trimmedLine.substr(1); // remove the leading slash
     }
 
-    rule.tokens = split(rule.pattern, '/');
+    std::string regexStr = patternToRegex(trimmedLine, rule.anchored);
+    // For our purposes, match the entire string.
+    regexStr += "$";
+    try {
+        rule.patternRegex = std::regex(regexStr, std::regex::ECMAScript);
+    } catch (std::regex_error &e) {
+        std::cerr << "Regex error for pattern \"" << trimmedLine << "\": " << e.what() << "\n";
+        return std::nullopt;
+    }
     return rule;
 }
 
 /**
- * Parse the given .gitignore file, returning a vector of GitIgnoreRule.
+ * Parse a .gitignore file and return a vector of rules.
  */
 std::vector<GitIgnoreRule> parseGitIgnore(const fs::path &gitignorePath) {
     std::vector<GitIgnoreRule> rules;
-    std::ifstream in(gitignorePath);
-    if (!in.is_open())
+    std::ifstream file(gitignorePath);
+    if (!file.is_open())
         return rules;
-    
     std::string line;
-    while (std::getline(in, line)) {
-        auto maybeRule = parseGitIgnoreLine(line);
-        if (maybeRule.has_value()) {
-            rules.push_back(maybeRule.value());
+    while (std::getline(file, line)) {
+        auto ruleOpt = parseGitIgnoreLine(line);
+        if (ruleOpt.has_value()) {
+            rules.push_back(ruleOpt.value());
         }
     }
     return rules;
 }
 
 /**
- * Match a single path component (no slashes) against a pattern token,
- * supporting '*', '?', and full '**'.
+ * Determine if the given relative path (with '/' as separator) matches a single rule.
  */
-bool matchToken(const std::string &token, const std::string &component) {
-    if (token == "**") {
-        return false;
-    }
-
-    size_t t = 0, c = 0;
-    size_t starPos = std::string::npos;
-    size_t starBackup = 0;
-
-    while (c < component.size()) {
-        if (t < token.size() && (token[t] == component[c] || token[t] == '?')) {
-            t++;
-            c++;
-        }
-        else if (t < token.size() && token[t] == '*') {
-            starPos = t;
-            starBackup = c;
-            t++;
-        }
-        else if (starPos != std::string::npos) {
-            t = starPos + 1;
-            c = ++starBackup;
-        }
-        else {
-            return false;
-        }
-    }
-    while (t < token.size() && token[t] == '*') {
-        t++;
-    }
-    return t == token.size();
-}
-
-/**
- * Given a file/directory path (represented as a vector of components) and a single GitIgnoreRule,
- * determine if the path would match that rule.
- */
-bool pathMatchesRule(const std::vector<std::string> &pathComponents,
-                     bool isDir,
-                     const GitIgnoreRule &rule)
-{
+bool matchesRule(const GitIgnoreRule &rule, const std::string &relPath, bool isDir) {
+    // If rule is directory-only but this is not a directory, it does not match.
     if (rule.directoryOnly && !isDir)
         return false;
-    if (rule.tokens.empty())
-        return false;
-
-    auto matchFromIndex = [&](auto self, size_t pcStart) -> bool {
-        size_t i = 0;
-        size_t j = pcStart;
-        while (i < rule.tokens.size() && j < pathComponents.size()) {
-            const auto &token = rule.tokens[i];
-            if (token == "**") {
-                if (i == rule.tokens.size() - 1)
-                    return true;
-                for (size_t skip = 0; j + skip <= pathComponents.size(); skip++) {
-                    if (self(self, j + skip))
-                        return true;
-                }
-                return false;
-            } else {
-                if (!matchToken(token, pathComponents[j]))
-                    return false;
-                i++;
-                j++;
-            }
-        }
-        if (i < rule.tokens.size()) {
-            for (; i < rule.tokens.size(); i++) {
-                if (rule.tokens[i] != "**")
-                    return false;
-            }
-            return true;
-        } else {
-            return (j == pathComponents.size());
-        }
-    };
-
-    if (rule.anchored)
-        return matchFromIndex(matchFromIndex, 0);
-    else {
-        for (size_t start = 0; start < pathComponents.size(); start++) {
-            if (matchFromIndex(matchFromIndex, start))
-                return true;
-        }
-        return false;
-    }
+    return std::regex_match(relPath, rule.patternRegex);
 }
 
 /**
- * Determine if a path should be ignored by checking against accumulated GitIgnoreRules.
- * The relative path is computed from 'baseDir' (which remains constant for the whole run).
+ * Given a list of GitIgnoreRule objects (ordered in the order they appear),
+ * determine if the file with the given relative path should be ignored.
+ *
+ * Git’s behavior is that the last matching rule wins.
  */
-bool isIgnored(const fs::path &fullPath,
-               const fs::path &baseDir,
-               const std::vector<GitIgnoreRule> &rules,
-               bool isDir)
-{
-    fs::path rel = fs::relative(fullPath, baseDir);
-    std::vector<std::string> components;
-    for (const auto &part : rel) {
-        components.push_back(part.string());
-    }
-
+bool isIgnored(const std::vector<GitIgnoreRule> &rules, const fs::path &baseDir, const fs::path &filePath) {
+    // Compute the relative path from baseDir, using '/' as separator.
+    fs::path rel = fs::relative(filePath, baseDir);
+    std::string relPath = rel.generic_string(); // always uses '/'
     bool ignored = false;
-    for (auto &rule : rules) {
-        if (pathMatchesRule(components, isDir, rule)) {
-            ignored = !rule.negate;
+    for (const auto &rule : rules) {
+        if (matchesRule(rule, relPath, fs::is_directory(filePath))) {
+            ignored = !rule.negate; // last match wins
         }
     }
     return ignored;
 }
 
 /**
- * Recursively gather rules from .gitignore files in parent directories.
- * (Rules are gathered from the original base directory.)
+ * Recursively gather .gitignore rules from the given directory and its parents.
+ * (For a fully correct implementation you would also need to merge rules from nested .gitignore files.)
  */
-std::vector<GitIgnoreRule> gatherGitIgnoreRulesRecursively(const fs::path &dir) {
-    std::vector<fs::path> dirs;
-    fs::path current = fs::canonical(dir);
+std::vector<GitIgnoreRule> gatherGitIgnoreRules(const fs::path &startDir) {
+    std::vector<GitIgnoreRule> rules;
+    fs::path current = fs::canonical(startDir);
     while (true) {
-        dirs.push_back(current);
-        if (current.has_parent_path() && current.parent_path() != current)
-            current = current.parent_path();
-        else
-            break;
-    }
-    std::reverse(dirs.begin(), dirs.end());
-
-    std::vector<GitIgnoreRule> allRules;
-    for (auto &d : dirs) {
-        fs::path gi = d / ".gitignore";
-        if (fs::exists(gi) && fs::is_regular_file(gi)) {
-            auto localRules = parseGitIgnore(gi);
-            allRules.insert(allRules.end(), localRules.begin(), localRules.end());
+        fs::path gitignoreFile = current / ".gitignore";
+        if (fs::exists(gitignoreFile) && fs::is_regular_file(gitignoreFile)) {
+            auto fileRules = parseGitIgnore(gitignoreFile);
+            // Append the rules (Git applies .gitignore files in order from the root downward)
+            rules.insert(rules.end(), fileRules.begin(), fileRules.end());
         }
+        if (!current.has_parent_path() || current == current.parent_path())
+            break;
+        current = current.parent_path();
     }
-    return allRules;
+    return rules;
 }
 
 /**
- * Heuristic function to determine if a file is binary.
- * Reads the first 512 bytes and checks for a high ratio of non-printable characters.
+ * A heuristic to check if a file is binary.
  */
 bool isBinaryFile(const fs::path &filePath) {
     std::ifstream in(filePath, std::ios::binary);
@@ -262,23 +197,18 @@ bool isBinaryFile(const fs::path &filePath) {
     in.read(buffer, sampleSize);
     std::streamsize bytesRead = in.gcount();
     if (bytesRead == 0)
-        return false; // Empty files are treated as text.
-    
+        return false;
     int nonPrintable = 0;
-    for (int i = 0; i < bytesRead; i++) {
+    for (int i = 0; i < bytesRead; ++i) {
         unsigned char c = static_cast<unsigned char>(buffer[i]);
-        if (!((c >= 32 && c <= 126) || c == 9 || c == 10 || c == 13)) {
+        if (!((c >= 32 && c <= 126) || c == 9 || c == 10 || c == 13))
             nonPrintable++;
-        }
     }
-    double ratio = static_cast<double>(nonPrintable) / bytesRead;
-    return ratio > 0.30;
+    return (static_cast<double>(nonPrintable) / bytesRead) > 0.30;
 }
 
 /**
- * Recursively process the directory, respecting .gitignore rules.
- * The parameter 'baseDir' remains the original directory against which all relative
- * paths (for .gitignore matching) are computed.
+ * Recursively process the directory and write text file contents into combined.txt.
  */
 void processDirectory(const fs::path &dir,
                       std::ofstream &out,
@@ -289,28 +219,12 @@ void processDirectory(const fs::path &dir,
         if (!entry.exists())
             continue;
         fs::path path = entry.path();
-        bool directory = fs::is_directory(path);
-
-        // Skip .gitignore files and the output file "combined.txt".
-        if (path.filename() == ".gitignore")
+        if (path.filename() == ".gitignore" || path.filename() == "combined.txt")
             continue;
-        if (path.filename() == "combined.txt")
+        if (isIgnored(rules, baseDir, path))
             continue;
-
-        // Use the fixed baseDir for ignore matching.
-        if (isIgnored(path, baseDir, rules, directory))
-            continue;
-
-        if (directory) {
-            // Create a new set of rules that includes any .gitignore from this subdirectory.
-            auto subDirRules = rules;
-            fs::path subGitIgnore = path / ".gitignore";
-            if (fs::exists(subGitIgnore)) {
-                auto localRules = parseGitIgnore(subGitIgnore);
-                subDirRules.insert(subDirRules.end(), localRules.begin(), localRules.end());
-            }
-            // Recurse but always pass along the original baseDir.
-            processDirectory(path, out, subDirRules, baseDir);
+        if (fs::is_directory(path)) {
+            processDirectory(path, out, rules, baseDir);
         } else {
             if (isBinaryFile(path)) {
                 std::cerr << "Skipping binary file: " << path << "\n";
@@ -318,12 +232,10 @@ void processDirectory(const fs::path &dir,
             }
             out << "# File: " << path.string() << "\n\n";
             std::ifstream inFile(path);
-            if (inFile) {
-                out << inFile.rdbuf();
-                out << "\n\n";
-            } else {
+            if (inFile)
+                out << inFile.rdbuf() << "\n\n";
+            else
                 std::cerr << "Failed to open file: " << path << "\n";
-            }
         }
     }
 }
@@ -334,22 +246,22 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    fs::path directoryPath(argv[1]);
-    if (!fs::exists(directoryPath) || !fs::is_directory(directoryPath)) {
-        std::cerr << "Invalid directory: " << directoryPath << "\n";
+    fs::path targetDir(argv[1]);
+    if (!fs::exists(targetDir) || !fs::is_directory(targetDir)) {
+        std::cerr << "Invalid directory: " << targetDir << "\n";
         return 1;
     }
-
+    
     std::ofstream outFile("combined.txt", std::ios::out | std::ios::binary);
     if (!outFile) {
         std::cerr << "Failed to create output file combined.txt\n";
         return 1;
     }
-
-    // Gather rules from the entire directory tree (using the top-level directory as base).
-    auto topLevelRules = gatherGitIgnoreRulesRecursively(directoryPath);
-    processDirectory(directoryPath, outFile, topLevelRules, directoryPath);
-
+    
+    // Gather .gitignore rules from the directory and its parents.
+    auto rules = gatherGitIgnoreRules(targetDir);
+    processDirectory(targetDir, outFile, rules, targetDir);
+    
     std::cout << "Files have been combined into combined.txt\n";
     return 0;
 }
